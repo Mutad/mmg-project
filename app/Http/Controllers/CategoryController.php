@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('category.all');
     }
 
     /**
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -35,51 +35,73 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name'=>'required|unique:categories|max:255',
+            'description'=>'required'
+        ]);
+
+        $category = Category::create($request->all());
+
+        return redirect("category/{$category->id}");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        return \view('category.single')->with('category', $category);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        return \view('category.edit')->with('category', $category);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param   int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name'=>'required|unique:categories|max:255',
+            'description'=>'required'
+        ]);
+
+        $category->update($request->all());
+
+        return redirect("category/{$id}");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(int $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('/category');
     }
 }
