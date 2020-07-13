@@ -1,4 +1,13 @@
-<form method="post">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form method="put" action="{{route('categories.update',['category'=>$category])}}">
     @csrf
     <input type="hidden" name="id" value="{{$category->id}}">
     <input type="text" name="name" value="{{$category->name}}">

@@ -1,5 +1,5 @@
 <ul>
     @foreach (App\Category::all() as $category)
-    <li>{{$category->name}}</li>
+    <li><a href="/category/{{$category->id}}">{{$category->name}}</a></li>
     @endforeach
 </ul>

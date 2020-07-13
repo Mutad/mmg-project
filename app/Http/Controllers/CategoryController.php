@@ -42,19 +42,17 @@ class CategoryController extends Controller
 
         $category = Category::create($request->all());
 
-        return redirect("category/{$category->id}");
+        return redirect(route('categories.show',['category'=>$category]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::findOrFail($id);
-
         return \view('category.single')->with('category', $category);
     }
 
@@ -64,10 +62,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::findOrFail($id);
-
         return \view('category.edit')->with('category', $category);
     }
 
@@ -75,33 +71,30 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param   int  $id
+     * @param  App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        $category = Category::findOrFail($id);
-
         $validatedData = $request->validate([
-            'name'=>'required|unique:categories|max:255',
+            'name'=>'required|max:255',
             'description'=>'required'
         ]);
 
         $category->update($request->all());
 
-        return redirect("category/{$id}");
+        return redirect(route('categories.show',['category'=>$category]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
         $category->delete();
-        return redirect('/category');
+        return redirect(route('categories.index'));
     }
 }

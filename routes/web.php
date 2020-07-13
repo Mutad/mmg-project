@@ -13,19 +13,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Categories
+Route::group(['prefix' => 'categories'], function () {
+    // Read
+    Route::get('/', 'CategoryController@index')->name('categories.index');
+    Route::get('/{category}', 'CategoryController@show')->name('categories.show');
+
+    // Create
+    Route::get('/create', 'CategoryController@create')->name('categories.create');
+    Route::post('/', 'CategoryController@store')->name('categories.store');
+
+    // Update
+    Route::get('/{category}/edit', 'CategoryController@edit')->name('categories.edit');
+    Route::put('/{category}', 'CategoryController@update')->name('categories.update');
+
+    // Delete
+    Route::delete('/{category}', 'CategoryController@destroy')->name('categories.destroy');
 });
 
-Route::group(['prefix' => 'category'], function () {
-    Route::get('/', 'CategoryController@index')->name('categories');
-    Route::get('/{id}', 'CategoryController@show')->where('id', '[0-9]+');
+// Posts
+Route::group(['prefix' => 'posts'], function () {
+    //Read
+    Route::get('/{post}', 'PostController@show')->name('posts.show');
 
-    Route::get('/create', 'CategoryController@create');
-    Route::post('/create', 'CategoryController@store');
+    //Create
+    Route::get('/create','PostController@create')->name('posts.create');
+    Route::post('/','PostController@store')->name('posts.store');
 
-    Route::get('/edit/{id}', 'CategoryController@edit')->where('id', '[0-9]+');
-    Route::put('/edit/{id}', 'CategoryController@update')->where('id', '[0-9]+');
+    //Update
+    Route::get('/{post}/edit','PostController@edit')->name('posts.edit');
+    Route::put('/{post}','PostController@update')->name('posts.update');
 
-    Route::delete('/{id}', 'CategoryController@destroy')->where('id', '[0-9]+');
+    //Delete
+    Route::delete('/{post}','PostController@destroy')->name('posts.destroy');
 });
