@@ -68,7 +68,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertStatus(302);
 
-        $response = $this->get("/category/{$category->id}");
+        $response = $this->get(route('categories.show',['category'=>$category]));
 
         $response->assertStatus(404);
     }
