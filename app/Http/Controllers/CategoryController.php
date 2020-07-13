@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
         $category = Category::create($request->all());
 
-        return redirect(route('categories.show',['category'=>$category]));
+        return redirect(route('categories.show', ['category'=>$category]));
     }
 
     /**
@@ -77,13 +77,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validatedData = $request->validate([
-            'name'=>'required|max:255',
+            //All names should be unique exept this one
+            'name'=>"required|max:255|unique:categories,name,{$category->id}",
             'description'=>'required'
         ]);
-
         $category->update($request->all());
-
-        return redirect(route('categories.show',['category'=>$category]));
+        return redirect(route('categories.show', ['category'=>$category]));
     }
 
     /**

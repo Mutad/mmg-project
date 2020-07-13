@@ -7,15 +7,6 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +15,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -35,7 +26,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'category_id'=>'required|exists:App\Category,id',
+            'name'=>'required|max:255',
+            'content'=>'required',
+            'file'=>'file'
+        ]);
+
+        $post = Post::create($request->all());
+        // $post->category()->save(App\Category::find($post->category_id));
+
+
+        return redirect(route('posts.show',['post'=>$post]));
     }
 
     /**
@@ -46,7 +48,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('post.single')->with('post',$post);
     }
 
     /**
@@ -57,7 +59,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post.edit')->with('post',$post);
     }
 
     /**
@@ -69,7 +71,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validatedData = $request->validate([
+            'category_id'=>'required|exists:App\Category,id',
+            'name'=>'required|max:255',
+            'content'=>'required',
+            'file'=>'file'
+        ]);
+
+        $post->update($request->all());
+        return redirect(route('posts.show',['post'=>$post]));
     }
 
     /**
@@ -80,6 +90,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect(route('categories.index'));
     }
 }

@@ -1,8 +1,7 @@
 <p>
     Category: {{$category->name}}
-</p>
-<p>
     Description: {{$category->description}}
+    <a href="{{route('categories.edit',['category'=>$category])}}">Edit</a>
 </p>
 <h2>Posts</h2>
 <ul>
