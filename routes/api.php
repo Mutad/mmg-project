@@ -13,3 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+Route::post('comment/post/{post}','CommentController@storeForPost')->name('comment.post');
+Route::post('comment/category/{category}','CommentController@storeForCategory')->name('comment.category');
