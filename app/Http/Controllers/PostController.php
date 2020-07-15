@@ -13,9 +13,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($category_id = 0)
     {
-        return view('post.create');
+        return view('post.create')->withSelected($category_id);
     }
 
     /**

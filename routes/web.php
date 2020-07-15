@@ -13,9 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/',function(){
+    return view('welcome');
+});
+
 // Categories
 Route::resource('categories', 'CategoryController');
+Route::get('categories/{category}/delete','CategoryController@destroy')->name('categories.destroy');
 
 
 // Posts
 Route::resource('posts', 'PostController')->except(['index']);
+Route::get('posts/create/{category_id}','PostController@create')->name('posts.create.with_id');
+
