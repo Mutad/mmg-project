@@ -2,7 +2,7 @@
 
 @section('content')
 <h3 class="pb-4 mb-4 font-italic border-bottom">
-    Edit category
+    Create category
 </h3>
 
 {{-- Validation errors --}}
@@ -26,7 +26,7 @@
         <input class="form-control" type="text" name="description" id="formDescription"
             placeholder="Enter form description">
     </div>
-    <button type="submit" class="btn btn-secondary">Update</button>
+    <button type="submit" class="btn btn-secondary">Create</button>
 </form>
 
 @endsection

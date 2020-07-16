@@ -6,7 +6,6 @@
 <div class="breadcrumb d-flex justify-content-between align-items-center">
     <ol class="breadcrumb m-0 p-0">
         <li class="breadcrumb-item active" aria-current="page">Home</li>
-        <li class="breadcrumb-item active">Latest posts</li>
     </ol>
     <div>
         <a href="{{route('categories.create')}}" class="btn btn-primary">Create category</a>
@@ -15,16 +14,22 @@
 </div>
 {{-- /.Breadcrumb --}}
 
+
 {{-- All brief posts --}}
-@foreach (App\Post::all() as $post)
+<h2 class="py-4 font-italic border-bottom">Latest posts:</h2>
+@foreach (App\Post::all()->sortByDesc('created_at')->take(5) as $post)
 @include('partials.post.brief',['post'=>$post])
 @endforeach
+<a href="{{route('posts.index')}}" class="btn btn-primary btn-block my-3">Read more</a>
 {{-- /.All brief posts --}}
 
-{{-- Pagination --}}
-<nav class="blog-pagination">
-    <a class="btn btn-outline-primary" href="#">Older</a>
-    <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-</nav>
-{{-- /.Pagination --}}
+
+{{-- All categories --}}
+<h2 class="py-4 font-italic border-bottom">Random Categories:</h2>
+@foreach (App\Category::all()->random(5) as $category)
+@include('partials.category.full',['category'=>$category])
+@endforeach
+<a href="{{route('categories.index')}}" class="btn btn-primary btn-block my-3">Read more</a>
+{{-- /.All categories --}}
+
 @endsection

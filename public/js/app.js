@@ -37276,6 +37276,23 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+var firstName = document.getElementById("formName");
+var lastName = document.getElementById("formSurname");
+var content = document.getElementById("formComment");
+
+function sendRequest() {
+  axios.post("{{$formAction}}", {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    content: content.value
+  }).then(function (response) {
+    console.log(response);
+  })["catch"](function (error) {
+    console.log(error);
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

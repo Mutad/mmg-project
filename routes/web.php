@@ -23,6 +23,7 @@ Route::get('categories/{category}/delete','CategoryController@destroy')->name('c
 
 
 // Posts
-Route::resource('posts', 'PostController')->except(['index']);
+Route::resource('posts', 'PostController');
 Route::get('posts/create/{category_id}','PostController@create')->name('posts.create.with_id');
+Route::get('posts/{post}/delete','PostController@destroy')->name('posts.destroy');
 

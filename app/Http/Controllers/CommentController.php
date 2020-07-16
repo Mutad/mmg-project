@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Category;
 
 class CommentController extends Controller
 {
@@ -26,13 +27,13 @@ class CommentController extends Controller
 
     private function createComment(Request $request){
         $validatedData = $request->validate([
-            'name'=>'required|alpha|max:255',
-            'surname'=>'required|alpha|max:255',
+            'firstName'=>'required|alpha|max:255',
+            'lastName'=>'required|alpha|max:255',
             'content'=>'required',
         ]);
 
         $comment = new Comment();
-        $comment->author = ucfirst(strtolower($request->name)).' '.ucfirst(strtolower($request->surname));
+        $comment->author = ucfirst(strtolower($request->firstName)).' '.ucfirst(strtolower($request->lastName));
         $comment->content = $request->content;
         return $comment;
     }

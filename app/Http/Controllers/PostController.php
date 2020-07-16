@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Log;
 
 class PostController extends Controller
 {
+    /**
+     * Show all posts
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $data = Post::paginate(10);
+        return view('post.all', compact('data'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -30,14 +41,21 @@ class PostController extends Controller
             'category_id'=>'required|exists:App\Category,id',
             'name'=>'required|max:255',
             'content'=>'required',
-            'file'=>'file'
+            'uploaded_file'=>'file'
         ]);
 
         $post = Post::create($request->all());
-        // $post->category()->save(App\Category::find($post->category_id));
 
+        $file = request()->file('uploaded_file');
+        if ($file) {
+            $fileName = "post{$post->id}file.{$file->extension()}";
 
-        return redirect(route('posts.show',['post'=>$post]));
+            $file->storeAs('files', $fileName, 'public');
+            $post->file_path = $fileName;
+            $post->save();
+        }
+
+        return redirect(route('posts.show', ['post'=>$post]));
     }
 
     /**
@@ -48,7 +66,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.single')->with('post',$post);
+        return view('post.single')->with('post', $post);
     }
 
     /**
@@ -59,7 +77,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('post.edit')->with('post',$post);
+        return view('post.edit')->with('post', $post);
     }
 
     /**
@@ -79,7 +97,7 @@ class PostController extends Controller
         ]);
 
         $post->update($request->all());
-        return redirect(route('posts.show',['post'=>$post]));
+        return redirect(route('posts.show', ['post'=>$post]));
     }
 
     /**
@@ -90,7 +108,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $category = $post->category;
         $post->delete();
-        return redirect(route('categories.index'));
+        return redirect(route('categories.show',['category'=>$category]));
     }
 }

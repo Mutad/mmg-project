@@ -14,14 +14,15 @@
 @endforeach
 @endif
 
-<form method="POST" action="{{route('posts.store')}}">
+<form method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data">
     @csrf
 
     <div class="form-group">
         <label for="formSelect">Post category</label>
         <select class="form-control" name="category_id" id="formSelect">
             @foreach (App\Category::all() as $category)
-            <option value="{{$category->id}}" @if($category->id == $selected)selected @endif)>{{$category->name}}</option>
+            <option value="{{$category->id}}" @if($category->id == $selected)selected @endif)>{{$category->name}}
+            </option>
             @endforeach
         </select>
     </div>
@@ -33,6 +34,13 @@
         <label for="formContent">Post content</label>
         <textarea class="form-control" id="formContent" name="content" rows="3"></textarea>
     </div>
+
+    <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" name="uploaded_file" id="customFile">
+        <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+
+
     <button type="submit" class="btn btn-secondary">Create</button>
 </form>
 @endsection

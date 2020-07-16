@@ -20,12 +20,6 @@
 @include('partials.post.full',['post'=>$post])
 
 {{-- Comments --}}
-@if ($post->comments->count() > 0)
 @include('partials.comments',['comments'=>$post->comments,'formAction'=>route('comment.post',['post'=>$post])])
-@else
-<h3 class="pb-4 mb-4 font-italic border-bottom">
-    No comments for this post.
-</h3>
-@endif
 
 @endsection

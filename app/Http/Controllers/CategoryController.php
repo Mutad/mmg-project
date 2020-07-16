@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.all');
+        $data = Category::paginate(5);
+        return view('category.all', compact('data'));
     }
 
     /**
@@ -53,7 +54,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return \view('category.single')->with('category', $category);
+        $data = $category->posts()->paginate(10);
+        return \view('category.single', compact('data'))->with('category', $category);
     }
 
     /**
