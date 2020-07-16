@@ -17,18 +17,14 @@
 
 {{-- All brief posts --}}
 <h2 class="py-4 font-italic border-bottom">Latest posts:</h2>
-@foreach (App\Post::all()->sortByDesc('created_at')->take(5) as $post)
-@include('partials.post.brief',['post'=>$post])
-@endforeach
+@include('partials.post.list',['posts'=>App\Post::all()->sortByDesc('created_at')->take(5)])
 <a href="{{route('posts.index')}}" class="btn btn-primary btn-block my-3">Read more</a>
 {{-- /.All brief posts --}}
 
 
 {{-- All categories --}}
-<h2 class="py-4 font-italic border-bottom">Random Categories:</h2>
-@foreach (App\Category::all()->random(5) as $category)
-@include('partials.category.full',['category'=>$category])
-@endforeach
+<h2 class="py-4 font-italic border-bottom">Latest Categories:</h2>
+@include('partials.category.list',['categories'=>App\Category::all()->sortByDesc('created_at')->take(5)])
 <a href="{{route('categories.index')}}" class="btn btn-primary btn-block my-3">Read more</a>
 {{-- /.All categories --}}
 
