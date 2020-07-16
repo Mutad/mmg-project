@@ -64,7 +64,7 @@ class CategoryControllerTest extends TestCase
     public function deleting_category(){
         $category = factory('App\Category')->create();
 
-        $response = $this->delete(route('categories.destroy',['category'=>$category]));
+        $response = $this->get(route('categories.destroy',['category'=>$category]));
 
         $response->assertStatus(302);
 

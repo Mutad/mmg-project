@@ -56,7 +56,7 @@ class PostControllerTest extends TestCase
     public function deleting_category(){
         $post = factory('App\Post')->create();
 
-        $response = $this->delete(route('posts.destroy',['post'=>$post]));
+        $response = $this->get(route('posts.destroy',['post'=>$post]));
 
         $response->assertStatus(302);
 
